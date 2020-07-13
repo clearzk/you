@@ -24,7 +24,6 @@ public class ValidatelExceptionHandler {
    @ExceptionHandler(ConstraintViolationException.class)
    public Result resolveConstraintViolationException(ConstraintViolationException ex){
 //      WebResult errorWebResult = new WebResult(WebResult.FAILED);
-      Result result=new Result();
       Set<ConstraintViolation<?>> constraintViolations = ex.getConstraintViolations();
       if(!CollectionUtils.isEmpty(constraintViolations)){
          StringBuilder msgBuilder = new StringBuilder();
@@ -43,7 +42,6 @@ public class ValidatelExceptionHandler {
    @ExceptionHandler(MethodArgumentNotValidException.class)
    public Result resolveMethodArgumentNotValidException(MethodArgumentNotValidException ex){
       //WebResult errorWebResult = new WebResult(WebResult.FAILED);
-      Result result=new Result();
       List<ObjectError> objectErrors = ex.getBindingResult().getAllErrors();
       if(!CollectionUtils.isEmpty(objectErrors)) {
          StringBuilder msgBuilder = new StringBuilder();
