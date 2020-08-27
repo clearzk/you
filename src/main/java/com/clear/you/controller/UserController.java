@@ -7,9 +7,14 @@ import com.clear.you.util.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.web.bind.annotation.*;
+import sun.nio.ch.IOUtil;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.InputStream;
 
 @RestController
 @Api(value = "用户控制器")
@@ -17,6 +22,9 @@ public class UserController {
 
     @Autowired
     private UserService service;
+
+    @Autowired
+    private ResourceLoader resourceLoader;
 
     @GetMapping(value = "/getUser")
     @ApiOperation(value = "获取用户")
@@ -35,6 +43,25 @@ public class UserController {
     public Result testParameter(@RequestParam(value = "name",required = false) String name,@RequestParam(value = "id",required = false) Integer age) {
         return ResultUtil.success();
     }
-}
 
-//   000027818  dlxx-区域综合能源
+    @ApiOperation("excel模板下载")
+    @GetMapping(value = "download")
+    public void download(HttpServletResponse response)throws Exception {
+        String path="classpath:excel/模板.xlsx";
+        int lastIndexOf = path.lastIndexOf("/");
+        String fileName = path.substring(lastIndexOf+1);
+        ServletOutputStream outputStream = response.getOutputStream();
+        InputStream inputStream = resourceLoader.getResource(path).getInputStream();
+
+        response.setContentType("application/vnd.ms-excel;charset=UTF-8");
+        response.setHeader("Content-Disposition", "attachment;filename=" + java.net.URLEncoder.encode(fileName,"UTF-8"));
+        byte[] b=new byte[1024];
+        int len=0;
+        while ((len = inputStream.read(b,0,b.length)) != -1) {
+            outputStream.write(b,0,len);
+        }
+
+        outputStream.close();
+
+    }
+}
