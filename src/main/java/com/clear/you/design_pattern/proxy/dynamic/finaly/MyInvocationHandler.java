@@ -9,7 +9,7 @@ public class MyInvocationHandler implements InvocationHandler {
     Object target;
 
     public MyInvocationHandler(Object target) {
-        //TODO 校验是否是接口，因为idk动态代理只支持接口代理
+        //校验是否是接口，因为jdk动态代理只支持接口代理
         checkInterface(target);
         this.target = target;
     }
