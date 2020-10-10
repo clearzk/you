@@ -1,10 +1,12 @@
 package com.clear.you.design_pattern.visitor.fly;
 
-
+/**
+ * 员工抽象类
+ */
 public abstract class Employee2 {
 
-    public final static int MALE=0;
-    public final static int FEMALE=1;
+    public final static int MALE=0;//男
+    public final static int FEMALE=1;//女
 
     public Employee2(String name, int salary, int sex) {
         this.name = name;
@@ -12,10 +14,13 @@ public abstract class Employee2 {
         this.sex = sex;
     }
 
+    //姓名
     private String name;
 
+    //薪水
     private int salary;
 
+    //性别
     private int sex;
 
     //允许一个访问者访问
